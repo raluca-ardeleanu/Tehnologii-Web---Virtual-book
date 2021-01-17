@@ -46,6 +46,7 @@ class ListNotes extends Component {
            .then(res => {
                this.setState({message : 'Note deleted successfully.'});
                this.setState({notes: this.state.notes.filter(note => note.id !== noteId)});
+               this.props.history.push('/listnote');
            })
     }
 
@@ -61,7 +62,8 @@ class ListNotes extends Component {
 
 
    filerResult(){
-   this.setState({notes: this.state.notes.filter(option => option.vat.toLowerCase().includes(this.state.filterExp.toLowerCase()))});
+   this.setState({notes: this.state.notes.filter(option => option.label.toLowerCase()
+   .includes(this.state.filterExp.toLowerCase()))});
    }
 
  onChange = (e) =>
@@ -98,8 +100,8 @@ class ListNotes extends Component {
                                 <TableCell align="right">{row.idMaterie}</TableCell>
                                 <TableCell align="right">{row.label}</TableCell>
 
-                                <TableCell align="right" onClick={() => this.editNote(row.id)}><CreateIcon /></TableCell>
-                                <TableCell align="right" onClick={() => this.deleteNote(row.id)}><DeleteIcon /></TableCell>
+                                <TableCell align="right" onClick={() => this.editNote(row.idNotita)}><CreateIcon /></TableCell>
+                                <TableCell align="right" onClick={() => this.deleteNote(row.idNotita)}><DeleteIcon /></TableCell>
 
                             </TableRow>
                         ))}

@@ -15,6 +15,7 @@ class TextEditor extends Component {
         	content: '',
         	idMaterie: '',
         	titlu: '',
+        	label: '',
         	materii: []
         }
         this.save = this.save.bind(this);
@@ -23,6 +24,10 @@ class TextEditor extends Component {
 
    onChange = (e) =>
           this.setState({ [e.target.name]: e.target.value });
+
+
+   handleChange = (e) =>
+          this.setState({ idMaterie: e.target.value });
 
     componentDidMount() {
         this.loadMaterii();
@@ -41,7 +46,7 @@ class TextEditor extends Component {
 
      save = (e) => {
               e.preventDefault();
-              let doc = {continut: this.state.content, titlu: this.state.titlu, };
+              let doc = {continut: this.state.content, idMaterie: this.state.idMaterie, titlu: this.state.titlu, label: this.state.label };
               ApiService.saveNote(doc)
                   .then(res => {
                       this.setState({message : 'Note added successfully.'});
@@ -101,7 +106,7 @@ toolbarButtonSize: 'large',
            labelId="demo-simple-select-helper-label"
            id="demo-simple-select-helper"
            value={this.state.idMaterie}
-          onChange={this.onChange}
+          onChange={this.handleChange}
          >
            <MenuItem value="">
              <em>None</em>
@@ -109,6 +114,7 @@ toolbarButtonSize: 'large',
            {this.state.materii.map(row => (<MenuItem value={row.idMaterie}>{row.numeMaterie}</MenuItem>))}
          </Select>
         <TextField type="text" label="Titlu" fullWidth margin="normal" name="titlu" value={this.state.titlu} onChange={this.onChange}/>
+         <TextField type="text" label="Label" fullWidth margin="normal" name="label" value={this.state.label} onChange={this.onChange}/>
         <Button variant="contained" color="primary" onClick={this.save}>Save</Button>
             <JoditEditor
             	editorRef={this.setRef}

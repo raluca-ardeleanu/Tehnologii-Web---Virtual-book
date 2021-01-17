@@ -113,6 +113,9 @@ const Note=sequelize.define('note', {
  titlu :{
    type: Sequelize.STRING,
    },
+  label :{
+    type: Sequelize.STRING,
+    },
  continut : {
   type: Sequelize.STRING,
   },

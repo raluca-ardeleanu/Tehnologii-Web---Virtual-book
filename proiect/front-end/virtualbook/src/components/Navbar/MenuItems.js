@@ -21,5 +21,11 @@ export const MenuItems = [
       title: 'Editor',
             url: '/listnote',
             cName: 'nav-links'
+    },
+
+    {
+      title: 'Agenda',
+            url: '/agenda',
+            cName: 'nav-links'
     }
 ]

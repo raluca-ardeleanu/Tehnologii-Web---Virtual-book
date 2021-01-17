@@ -5,6 +5,7 @@ import LogIn from './LogIn/LogIn';
 import SignUp from './SignUp/SignUp'
 import TextEditor from './TextEditor/TextEditor'
 import ListNotes from './List/ListNotes'
+import Agenda from './Agenda/Agenda'
 import React from "react";
 
 const AppRouter = () => {
@@ -18,6 +19,7 @@ const AppRouter = () => {
                         <Route path="/signup" component={SignUp}/>
                         <Route path="/editor" component={TextEditor}/>
                         <Route path="/listnote" component={ListNotes}/>
+                        <Route path="/agenda" component={Agenda}/>
                     </Switch>
                 </Router>
             </div>
