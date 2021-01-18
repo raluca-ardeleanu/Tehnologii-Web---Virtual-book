@@ -19,6 +19,7 @@ class ListNotes extends Component {
             notes: [],
             materii: [],
             message: null,
+            shared: [],
             filterExp:''
         }
         this.deleteNote = this.deleteNote.bind(this);
@@ -33,9 +34,14 @@ class ListNotes extends Component {
     }
 
     reload() {
-        ApiService.fetchNotes()
+        ApiService.fetchNotes(localStorage.getItem("jwt"))
             .then((res) => {
                 this.setState({notes: res.data})
+            });
+
+        ApiService.sharedNotes(localStorage.getItem("jwt"))
+            .then((res) => {
+                this.setState({shared: res.data})
             });
     }
 
@@ -52,7 +58,7 @@ class ListNotes extends Component {
 
     editNote(id) {
         window.localStorage.setItem("noteId", id);
-        this.props.history.push('/editor');
+        this.props.history.push('/editoredit');
     }
 
     addNote() {
@@ -72,7 +78,7 @@ class ListNotes extends Component {
     render() {
         return (
             <div>
-                <Typography variant="h4" style={style}>Details</Typography>
+                <Typography variant="h4" style={style}>My Notes</Typography>
                 <Button variant="contained" color="primary" onClick={() => this.addNote()}>
                     Add
                 </Button>
@@ -108,6 +114,34 @@ class ListNotes extends Component {
                     </TableBody>
 
                 </Table>
+
+        <Typography variant="h4" style={style}>Shared Notes</Typography>
+
+        <Table  options={{search: true}}>
+    <TableHead>
+        <TableRow>
+        <TableCell>Id</TableCell>
+        <TableCell>Titlu</TableCell>
+        <TableCell align="right">Materie</TableCell>
+            <TableCell align="right">Etichete</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {this.state.shared.map(row => (
+                    <TableRow key={row.idNotita}>
+                <TableCell component="th" scope="row">
+                {row.idNotita}
+                </TableCell>
+                <TableCell align="right">{row.titlu}</TableCell>
+                <TableCell align="right">{row.idMaterie}</TableCell>
+                <TableCell align="right">{row.label}</TableCell>
+
+                <TableCell align="right" onClick={() => this.editNote(row.idNotita)}><CreateIcon /></TableCell>
+        </TableRow>
+    ))}
+    </TableBody>
+
+        </Table>
 
             </div>
         );

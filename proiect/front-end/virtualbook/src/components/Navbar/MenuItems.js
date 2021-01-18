@@ -27,5 +27,10 @@ export const MenuItems = [
       title: 'Agenda',
             url: '/agenda',
             cName: 'nav-links'
+    },
+    {
+      title: 'Groups',
+            url: '/group',
+            cName: 'nav-links'
     }
 ]

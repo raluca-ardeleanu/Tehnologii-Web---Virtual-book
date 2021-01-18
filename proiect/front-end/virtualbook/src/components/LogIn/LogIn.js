@@ -36,7 +36,7 @@ class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             password: "",
             isAuthenticated: false,
             open: false
@@ -47,23 +47,25 @@ class LogIn extends Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    handleSignUp = event => {
+        this.props.history.push('/signup');
+    };
+
     handleClose = event => {
         this.setState({ open: false });
     };
 
     login = () => {
         const user = {
-            userId: this.state.username,
+            email: this.state.email,
             password: this.state.password
         };
         console.log(user);
         ApiService.sendUser(user)
             .then(res => {
-                console.log(res);
-                const jwtToken = res.data.accessToken;
-                const typeToken  = res.data.tokenType;
-                if (jwtToken !== null) {
-                    window.localStorage.setItem("jwt", typeToken + " " + jwtToken);
+
+                if (res.status === 200) {
+                    window.localStorage.setItem("jwt", res.data);
                     this.setState({ isAuthenticated: true });
                 } else {
                     this.setState({ open: true });
@@ -96,8 +98,8 @@ class LogIn extends Component {
                                 required
                                 fullWidth
                                 autoFocus
-                                name="username"
-                                placeholder="Username"
+                                name="email"
+                                placeholder="Email"
                                 onChange={this.handleChange}
                             />
                             <br />
@@ -122,6 +124,14 @@ class LogIn extends Component {
                                 className={useStyles.submit}
                                 onClick={this.login}>
                                 Login
+                            </Button>
+                                    <Button //type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={useStyles.submit}
+                                        onClick={this.handleSignUp}>
+                                              SignUp
                             </Button>
                             <Snackbar
                                 open={this.state.open}

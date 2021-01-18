@@ -7,13 +7,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
-class TextEditor extends Component {
+class TextEditorEdit extends Component {
 
   constructor(props) {
         super(props);
         this.state = {
         	content: '',
         	idMaterie: '',
+            idNotita: '',
             idLogin: '',
         	titlu: '',
         	label: '',
@@ -32,8 +33,24 @@ class TextEditor extends Component {
 
     componentDidMount() {
         this.loadMaterii();
+        this.loadText();
     }
 
+
+    loadText() {
+        ApiService.fetchNoteById(window.localStorage.getItem("noteId"))
+            .then((res) => {
+                let doc = res.data;
+                this.setState({
+                    content: doc.continut,
+                    idMaterie: doc.idMaterie,
+                    titlu: doc.titlu,
+                    label: doc.label,
+                    idNotita: doc.idNotita,
+                    idLogin: doc.idLogin
+                })
+            });
+    }
 
     loadMaterii() {
      ApiService.fetchMaterii()
@@ -48,8 +65,8 @@ class TextEditor extends Component {
 
      save = (e) => {
               e.preventDefault();
-              let doc = {continut: this.state.content, idMaterie: this.state.idMaterie, titlu: this.state.titlu, label: this.state.label, idLogin:  localStorage.getItem("jwt") };
-              ApiService.saveNote(doc)
+              let doc = {continut: this.state.content, idMaterie: this.state.idMaterie, titlu: this.state.titlu, label: this.state.label, idNotita: this.state.idNotita,  idLogin:  localStorage.getItem("jwt")  };
+              ApiService.updateNote(doc)
                   .then(res => {
                       this.setState({message : 'Note added successfully.'});
                       this.props.history.push('/home');
@@ -130,4 +147,4 @@ toolbarButtonSize: 'large',
     }
 }
 
-export default TextEditor;
+export default TextEditorEdit;
